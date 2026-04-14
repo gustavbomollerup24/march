@@ -315,12 +315,9 @@ func _action_train() -> void:
 		return
 
 	for settlement: Settlement in _get_owned_settlements():
-		if settlement.has_minimum_soldiers(16):
+		if settlement.has_minimum_soldiers(12):
 			print("Too many soldiers, no training happened")
-			_refresh_ui()
-			return 
-
-		if _settlement_has_building(settlement, BUILDING_TRAINING_GROUNDS):
+		elif _settlement_has_building(settlement, BUILDING_TRAINING_GROUNDS):
 			settlement.set_soldiers(settlement.soldiers + 3)
 
 	print("Dwarves trained soldiers")

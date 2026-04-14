@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://dvorrvguyo252"]
+
+[ext_resource type="Script" uid="uid://bl1phq4pma6hl" path="res://UI/OutGameUI/map_selection.gd" id="1_4fk6r"]
+[ext_resource type="Texture2D" uid="uid://cx685qyd5se2x" path="res://PlayBoard/Fjord/Fjord1.1.2.png" id="2_15vm8"]
+[ext_resource type="Texture2D" uid="uid://6qev8kw42vwp" path="res://PlayBoard/Split/Split1.2.3.png" id="3_fwfho"]
+
+[node name="MapSelection" type="CanvasLayer" unique_id=1165023563]
+script = ExtResource("1_4fk6r")
+
+[node name="Label" type="Label" parent="." unique_id=454417151]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -368.5
+offset_right = 368.5
+offset_bottom = 126.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 80
+text = "Select a map"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1176187620]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -626.0
+offset_top = -935.0
+offset_right = 626.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 50
+columns = 2
+
+[node name="Fjord" type="Button" parent="GridContainer" unique_id=861352538]
+custom_minimum_size = Vector2(601, 425)
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+icon = ExtResource("2_15vm8")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Split" type="Button" parent="GridContainer" unique_id=1768043797]
+custom_minimum_size = Vector2(601, 425)
+layout_mode = 2
+icon = ExtResource("3_fwfho")
+icon_alignment = 1
+expand_icon = true
+
+[node name="Button" type="Button" parent="GridContainer" unique_id=569870119]
+custom_minimum_size = Vector2(601, 425)
+layout_mode = 2
+
+[connection signal="pressed" from="GridContainer/Fjord" to="." method="_on_fjord_pressed"]
+[connection signal="pressed" from="GridContainer/Split" to="." method="_on_split_pressed"]
