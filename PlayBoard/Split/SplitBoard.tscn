@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://6qev8kw42vwp" path="res://PlayBoard/Split/Split1.2.3.png" id="1_lvo4p"]
 [ext_resource type="PackedScene" uid="uid://cdaw4wd7ieqhm" path="res://UI/InGameUI/UI.tscn" id="2_etibm"]
-[ext_resource type="Script" uid="uid://fdg1fx7uxpx7" path="res://PlayBoard/Fjord/connection_drawer.gd" id="3_xicrr"]
+[ext_resource type="Script" uid="uid://fdg1fx7uxpx7" path="res://PlayBoard/Split/connection_drawer.gd" id="3_xicrr"]
 [ext_resource type="PackedScene" uid="uid://djgorxnh2gemb" path="res://Village/Settlement.tscn" id="4_de7ku"]
 [ext_resource type="Script" uid="uid://cqv0tts3e8xlb" path="res://Systems/BoardController.gd" id="5_buhc4"]
 
@@ -227,7 +227,7 @@ settlement_name = "Khardum"
 soldiers = 12
 building_slot_count = 3
 
-[node name="BoardController" type="Node2D" parent="." unique_id=426453066]
+[node name="BoardController" type="Node2D" parent="." unique_id=426453066 groups=["board"]]
 visible = false
 script = ExtResource("5_buhc4")
 ui_path = NodePath("../UI")

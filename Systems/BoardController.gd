@@ -23,6 +23,8 @@ var pending_is_attack: bool = false
 
 var rng := RandomNumberGenerator.new()
 
+var skip_new_game_setup: bool = false
+
 enum DraftPhase {
 	ELF,
 	DWARF,
@@ -41,11 +43,18 @@ func _ready() -> void:
 	_connect_settlement_signals()
 	_connect_ui_signals()
 	_connect_game_signals()
-	start_draft()
 
+	if not SaveManager.is_loading_game:
+		start_draft()
+		_show_deselect_button(false)
+		_on_turn_changed(TurnState.current_turn)
+
+
+func start_new_game() -> void:
+	start_draft()
 	_show_deselect_button(false)
 	_on_turn_changed(TurnState.current_turn)
-
+	
 # =========================
 # Setup
 # =========================

@@ -123,6 +123,7 @@ func _ready() -> void:
 	_connect_global_signals()
 	_connect_button_signals()
 	_initialize_ui()
+	
 
 # =========================
 # Setup
@@ -290,8 +291,21 @@ func hide_war_meeting_button() -> void:
 func _open_settings() -> void:
 	settings_dialog.popup_centered()
 
+func _on_savebutton_pressed() -> void:
+	var board := get_tree().get_first_node_in_group("board")
+	if board == null:
+		print("No board found")
+		return
+
+	var ok := SaveManager.save_game(board)
+	if ok:
+		print("Save successful")
+	else:
+		print("Save failed")
+	
 func _quit_game() -> void:
 	get_tree().quit()
+
 
 # =========================
 # Resource / trade UI

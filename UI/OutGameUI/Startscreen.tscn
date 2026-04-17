@@ -65,4 +65,5 @@ theme_override_font_sizes/font_size = 40
 text = "Quit"
 
 [connection signal="pressed" from="GridContainer/new game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="GridContainer/Continue game" to="." method="_on_continue_game_pressed"]
 [connection signal="pressed" from="GridContainer/Quit" to="." method="_on_quit_pressed"]
