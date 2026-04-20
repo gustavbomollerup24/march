@@ -48,7 +48,7 @@ signal move_all_requested()
 @onready var bring_dark_lord_checkbox: CheckBox = %BringDarkLordCheckBox
 # Settings
 # =========================
-@onready var settings_button: Button = %SettingsButton
+@onready var settings_button: TextureButton = %SettingsButton
 @onready var settings_dialog: Window = %SettingsDialog
 @onready var quit_button: Button = %QuitButton
 
@@ -123,7 +123,6 @@ func _ready() -> void:
 	_connect_global_signals()
 	_connect_button_signals()
 	_initialize_ui()
-	
 
 # =========================
 # Setup
@@ -291,21 +290,8 @@ func hide_war_meeting_button() -> void:
 func _open_settings() -> void:
 	settings_dialog.popup_centered()
 
-func _on_savebutton_pressed() -> void:
-	var board := get_tree().get_first_node_in_group("board")
-	if board == null:
-		print("No board found")
-		return
-
-	var ok := SaveManager.save_game(board)
-	if ok:
-		print("Save successful")
-	else:
-		print("Save failed")
-	
 func _quit_game() -> void:
 	get_tree().quit()
-
 
 # =========================
 # Resource / trade UI
@@ -387,7 +373,7 @@ func show_settlement_details(s: Settlement) -> void:
 	delete_building_button.visible = false
 
 func _update_remove_infiltration_button(s: Settlement) -> void:
-	var controller := TurnState.current_faction_controller
+	var controller = TurnState.current_faction_controller
 
 	if controller == null:
 		remove_infiltration_button.visible = false
@@ -449,7 +435,7 @@ func _on_mercenary_button_pressed() -> void:
 		print("Could not hire mercenaries.")
 
 func _update_mercenary_button(s: Settlement) -> void:
-	var is_orc_turn := TurnState.current_turn == Faction.Type.ORC
+	var is_orc_turn = TurnState.current_turn == Faction.Type.ORC
 
 	if not is_orc_turn:
 		mercenary_button.visible = false

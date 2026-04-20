@@ -1,12 +1,15 @@
 [gd_scene format=3 uid="uid://cdaw4wd7ieqhm"]
 
-[ext_resource type="Script" uid="uid://b005jigrgc6n" path="res://UI/InGameUI/UI.gd" id="1_b3bc3"]
+[ext_resource type="Script" uid="uid://b005jigrgc6n" path="res://InGameUI/UI.gd" id="1_b3bc3"]
+[ext_resource type="Texture2D" uid="uid://d4pe2a4pawi0" path="res://InGameUI/Graphics/Buttons/PureButtonSettingsU.png" id="2_grmc8"]
+[ext_resource type="Texture2D" uid="uid://bb6t8n5ixf5at" path="res://InGameUI/Graphics/Buttons/PureButtonSettingsS.png" id="3_0iy48"]
 
 [node name="UI" type="CanvasLayer" unique_id=1769323019]
 script = ExtResource("1_b3bc3")
 
 [node name="RightPanel" type="Panel" parent="." unique_id=1334037232]
 unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 11
 anchor_left = 1.0
 anchor_right = 1.0
@@ -142,8 +145,10 @@ unique_name_in_owner = true
 layout_mode = 2
 
 [node name="LeftPanel" type="Panel" parent="." unique_id=1982825963]
+self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 9
 anchor_bottom = 1.0
+offset_top = 40.0
 offset_right = 220.0
 grow_vertical = 2
 
@@ -162,10 +167,12 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="SettingsButton" type="Button" parent="LeftPanel/HBoxContainerTop/VBoxContainer" unique_id=699180968]
+[node name="SettingsButton" type="TextureButton" parent="LeftPanel/HBoxContainerTop/VBoxContainer" unique_id=66631525]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Settings"
+texture_normal = ExtResource("2_grmc8")
+texture_pressed = ExtResource("3_0iy48")
+texture_hover = ExtResource("3_0iy48")
 
 [node name="SeasonButton" type="Button" parent="LeftPanel/HBoxContainerTop/VBoxContainer" unique_id=1159562499]
 unique_name_in_owner = true
@@ -277,6 +284,7 @@ layout_mode = 2
 text = "Remove Infiltration"
 
 [node name="TopPanel" type="Panel" parent="." unique_id=2128614229]
+self_modulate = Color(1, 1, 1, 0)
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -445,25 +453,13 @@ text = "Bring Dark Lord"
 
 [node name="SettingsDialog" type="AcceptDialog" parent="." unique_id=1231288899]
 unique_name_in_owner = true
-oversampling_override = 1.0
 title = "Settings"
-position = Vector2i(0, 36)
-size = Vector2i(100, 123)
 ok_button_text = "Close"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsDialog" unique_id=1968730350]
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 92.0
-offset_bottom = 74.0
-
-[node name="savebutton" type="Button" parent="SettingsDialog/VBoxContainer" unique_id=497572678]
-layout_mode = 2
-text = "save"
-
-[node name="QuitButton" type="Button" parent="SettingsDialog/VBoxContainer" unique_id=1065418446]
+[node name="QuitButton" type="Button" parent="SettingsDialog" unique_id=1065418446]
 unique_name_in_owner = true
-layout_mode = 2
+offset_right = 8.0
+offset_bottom = 8.0
 text = "Quit"
 
 [node name="SeasonDialog" type="AcceptDialog" parent="." unique_id=408923835]
@@ -525,5 +521,3 @@ text = "Gold Mine"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Training Grounds"
-
-[connection signal="pressed" from="SettingsDialog/VBoxContainer/savebutton" to="." method="_on_savebutton_pressed"]
