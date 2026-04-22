@@ -44,6 +44,9 @@ const BUILDING_FARM := "Farm"
 @onready var building_icon_2: Sprite2D = $BuildingIcon2
 @onready var building_icon_3: Sprite2D = $BuildingIcon3
 
+#ownership
+signal faction_changed(settlement: Settlement, old_faction: int, new_faction: int)
+
 var mercenaries_hired_this_turn: bool = false
 
 var infiltration_faction: int = Faction.Type.NEUTRAL
@@ -140,7 +143,9 @@ func _input_event(_viewport, event: InputEvent, _shape_idx: int) -> void:
 # =========================
 
 func set_faction(value: Faction.Type) -> void:
+	var old_faction := faction
 	faction = value
+
 	if faction == Faction.Type.DWARF:
 		faction_symbol.texture = preload("res://Village/SettlementGraphics/DwarfSymbolCrest2.png")
 	if faction == Faction.Type.ORC:
@@ -149,13 +154,16 @@ func set_faction(value: Faction.Type) -> void:
 		faction_symbol.texture = preload("res://Village/SettlementGraphics/ElfSymbolCrest4.png")
 	_refresh_visuals()
 
+	if old_faction != faction:
+		faction_changed.emit(self, old_faction, faction)
+
 func set_soldiers(value: int) -> void:
 	soldiers = max(0, value)
 	_refresh_visuals()
 
 func set_garrison(new_faction: Faction.Type, amount: int) -> void:
 	soldiers = max(0, amount)
-	faction = new_faction
+	set_faction(new_faction)
 	_refresh_visuals()
 
 func _refresh_visuals() -> void:

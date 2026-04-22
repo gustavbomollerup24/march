@@ -48,6 +48,8 @@ func _ready() -> void:
 		start_draft()
 		_show_deselect_button(false)
 		_on_turn_changed(TurnState.current_turn)
+	
+	update_land_control_ui()
 
 
 func start_new_game() -> void:
@@ -60,8 +62,12 @@ func start_new_game() -> void:
 # =========================
 
 func _connect_settlement_signals() -> void:
-	for settlement in get_tree().get_nodes_in_group("settlements"):
+	for settlement: Settlement in get_tree().get_nodes_in_group("settlements"):
 		settlement.clicked.connect(_on_settlement_clicked)
+		settlement.faction_changed.connect(_on_settlement_faction_changed)
+
+func _on_settlement_faction_changed(_settlement: Settlement, _old_faction: int, _new_faction: int) -> void:
+	update_land_control_ui()
 
 func _connect_ui_signals() -> void:
 	move_dialog.confirmed.connect(_on_move_confirmed)
@@ -720,3 +726,22 @@ func _finish_successful_move(source: Settlement, target: Settlement) -> void:
 		controller.after_successful_move(source, target)
 
 	_deselect()
+
+func update_land_control_ui() -> void:
+	var total := 0
+	var orc_count := 0
+	var dwarf_count := 0
+	var elf_count := 0
+
+	for settlement: Settlement in get_tree().get_nodes_in_group("settlements"):
+		total += 1
+
+		match settlement.faction:
+			Faction.Type.ORC:
+				orc_count += 1
+			Faction.Type.DWARF:
+				dwarf_count += 1
+			Faction.Type.ELF:
+				elf_count += 1
+
+	ui.update_ownership_display(orc_count, dwarf_count, elf_count, total)

@@ -319,6 +319,8 @@ func _refresh_loaded_game(board: Node) -> void:
 			board.ui.show_settlement_details(board.selected)
 	elif "ui" in board and board.ui != null:
 		board.ui.hide_settlement_details()
+	if board.has_method("update_land_control_ui"):
+		board.update_land_control_ui()
 
 
 func _restore_int_keyed_dict(source: Dictionary) -> Dictionary:

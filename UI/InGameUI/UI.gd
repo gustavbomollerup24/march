@@ -94,6 +94,13 @@ var armor_labels: Dictionary = {}
 @onready var faction_actions_container: VBoxContainer = %FactionActionsContainer
 @onready var dwarf_march_label: Label = %DwarfMarchLabel
 
+#ownership
+@onready var ownership_panel: Panel = $LeftPanel/OwnershipPanel
+@onready var ownership_title: Label = $LeftPanel/OwnershipPanel/VBoxContainer/OwnershipTitle
+@onready var orc_ownership_label: Label = $LeftPanel/OwnershipPanel/VBoxContainer/OrcOwnershipLabel
+@onready var dwarf_ownership_label: Label = $LeftPanel/OwnershipPanel/VBoxContainer/DwarfOwnershipLabel
+@onready var elf_ownership_label: Label = $LeftPanel/OwnershipPanel/VBoxContainer/ElfOwnershipLabel
+
 # =========================
 # Dwarf build UI
 # =========================
@@ -542,3 +549,21 @@ func _update_hoard_button(threshold: int, button: Button, controller: DwarfContr
 	else:
 		button.text = _pretty_action_name(assigned)
 		button.disabled = true
+
+
+func update_ownership_display(orc_count: int, dwarf_count: int, elf_count: int, total: int) -> void:
+	ownership_title.text = "Land Control"
+
+	if total <= 0:
+		orc_ownership_label.text = "Orc: 0%"
+		dwarf_ownership_label.text = "Dwarf: 0%"
+		elf_ownership_label.text = "Elf: 0%"
+		return
+
+	var orc_percent := (float(orc_count) / float(total)) * 100.0
+	var dwarf_percent := (float(dwarf_count) / float(total)) * 100.0
+	var elf_percent := (float(elf_count) / float(total)) * 100.0
+
+	orc_ownership_label.text = "Orc: %d / %d (%.1f%%)" % [orc_count, total, orc_percent]
+	dwarf_ownership_label.text = "Dwarf: %d / %d (%.1f%%)" % [dwarf_count, total, dwarf_percent]
+	elf_ownership_label.text = "Elf: %d / %d (%.1f%%)" % [elf_count, total, elf_percent]

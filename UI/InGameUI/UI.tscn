@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cdaw4wd7ieqhm"]
 
-[ext_resource type="Script" uid="uid://b005jigrgc6n" path="res://InGameUI/UI.gd" id="1_b3bc3"]
-[ext_resource type="Texture2D" uid="uid://d4pe2a4pawi0" path="res://InGameUI/Graphics/Buttons/PureButtonSettingsU.png" id="2_grmc8"]
-[ext_resource type="Texture2D" uid="uid://bb6t8n5ixf5at" path="res://InGameUI/Graphics/Buttons/PureButtonSettingsS.png" id="3_0iy48"]
+[ext_resource type="Script" uid="uid://b005jigrgc6n" path="res://UI/InGameUI/UI.gd" id="1_b3bc3"]
+[ext_resource type="Texture2D" uid="uid://d4pe2a4pawi0" path="res://UI/InGameUI/Graphics/Buttons/PureButtonSettingsU.png" id="2_grmc8"]
+[ext_resource type="Texture2D" uid="uid://bb6t8n5ixf5at" path="res://UI/InGameUI/Graphics/Buttons/PureButtonSettingsS.png" id="3_0iy48"]
 
 [node name="UI" type="CanvasLayer" unique_id=1769323019]
 script = ExtResource("1_b3bc3")
@@ -282,6 +282,30 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 text = "Remove Infiltration"
+
+[node name="OwnershipPanel" type="Panel" parent="LeftPanel" unique_id=1030757651]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 139.0
+offset_right = 209.0
+offset_bottom = 243.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LeftPanel/OwnershipPanel" unique_id=2066718715]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="OwnershipTitle" type="Label" parent="LeftPanel/OwnershipPanel/VBoxContainer" unique_id=545656373]
+layout_mode = 2
+
+[node name="OrcOwnershipLabel" type="Label" parent="LeftPanel/OwnershipPanel/VBoxContainer" unique_id=401413175]
+layout_mode = 2
+
+[node name="DwarfOwnershipLabel" type="Label" parent="LeftPanel/OwnershipPanel/VBoxContainer" unique_id=1248342023]
+layout_mode = 2
+
+[node name="ElfOwnershipLabel" type="Label" parent="LeftPanel/OwnershipPanel/VBoxContainer" unique_id=490015800]
+layout_mode = 2
 
 [node name="TopPanel" type="Panel" parent="." unique_id=2128614229]
 self_modulate = Color(1, 1, 1, 0)
