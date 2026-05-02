@@ -88,6 +88,7 @@ settlement_name = "Varnok"
 soldiers = 8
 neighbors = [NodePath("../Astbury"), NodePath("../Valmere")]
 building_slot_count = 2
+is_orc_war_promise = true
 
 [node name="Brakkar" parent="." unique_id=1479914948 node_paths=PackedStringArray("neighbors") instance=ExtResource("4_qpjto")]
 position = Vector2(400, 1840)
@@ -112,6 +113,7 @@ settlement_name = "Caelporth"
 soldiers = 8
 neighbors = [NodePath("../Durnhal"), NodePath("../Brinefall"), NodePath("../Greyharbor"), NodePath("../Balgrin")]
 building_slot_count = 2
+is_orc_war_promise = true
 
 [node name="Sevrin" parent="." unique_id=168259393 node_paths=PackedStringArray("neighbors") instance=ExtResource("4_qpjto")]
 position = Vector2(3341, 1613)
@@ -226,6 +228,7 @@ settlement_name = "Khardum"
 soldiers = 8
 neighbors = [NodePath("../Brinefall"), NodePath("../Stonvar")]
 building_slot_count = 2
+is_orc_war_promise = true
 
 [node name="BoardController" type="Node2D" parent="." unique_id=426453066 groups=["board"]]
 visible = false

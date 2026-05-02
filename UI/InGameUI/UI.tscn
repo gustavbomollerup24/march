@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://b005jigrgc6n" path="res://UI/InGameUI/UI.gd" id="1_b3bc3"]
 [ext_resource type="Texture2D" uid="uid://d4pe2a4pawi0" path="res://UI/InGameUI/Graphics/Buttons/PureButtonSettingsU.png" id="2_grmc8"]
 [ext_resource type="Texture2D" uid="uid://bb6t8n5ixf5at" path="res://UI/InGameUI/Graphics/Buttons/PureButtonSettingsS.png" id="3_0iy48"]
+[ext_resource type="Texture2D" uid="uid://cgbebsg0x1tlb" path="res://UI/InGameUI/Graphics/Buttons/TextGraphicNextTurnU.png" id="8_mpd52"]
+[ext_resource type="Texture2D" uid="uid://lgv271w0b1oj" path="res://UI/InGameUI/Graphics/Buttons/TextGraphicNextTurnS.png" id="9_ou0ff"]
 
 [node name="UI" type="CanvasLayer" unique_id=1769323019]
 script = ExtResource("1_b3bc3")
@@ -34,7 +36,7 @@ offset_top = 35.0
 offset_right = -2.0
 offset_bottom = 58.0
 
-[node name="WarMeetingDoneButton" type="Button" parent="RightPanel" unique_id=1389410698]
+[node name="WarMeetingDoneButton" type="Button" parent="RightPanel" unique_id=1749599745]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
@@ -42,10 +44,10 @@ anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -54.0
+offset_bottom = 42.0
 grow_horizontal = 2
 grow_vertical = 0
-text = "Finish 
-War Meeting"
+text = "End War Metting"
 
 [node name="DwarfGoldHoard" type="Panel" parent="RightPanel" unique_id=798197370]
 unique_name_in_owner = true
@@ -204,11 +206,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="DeleteBuildingButton" type="Button" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=1955708162]
+[node name="DeleteBuildingButton" type="Button" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=921601602]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Delete Building"
+text = "Delete Bulding"
 
 [node name="DeselectButton" type="Button" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=1664342678]
 unique_name_in_owner = true
@@ -216,17 +218,19 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "Deselect"
 
-[node name="TradeButton" type="Button" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=594072050]
+[node name="TradeButton" type="Button" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=1675085456]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Trade"
 
-[node name="NextTurnButton" type="Button" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=1683456407]
+[node name="NextTurnButton" type="TextureButton" parent="LeftPanel/HBoxContainerBottom/VBoxContainer" unique_id=111463052]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Next Turn"
+texture_normal = ExtResource("8_mpd52")
+texture_pressed = ExtResource("9_ou0ff")
+texture_hover = ExtResource("9_ou0ff")
 
 [node name="SettlementDetailPanel" type="Panel" parent="LeftPanel" unique_id=388741207]
 unique_name_in_owner = true
@@ -278,7 +282,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="RemoveInfiltrationButton" type="Button" parent="LeftPanel/SettlementDetailPanel/VBoxContainer" unique_id=395472619]
+[node name="RemoveInfiltrationButton" type="Button" parent="LeftPanel/SettlementDetailPanel/VBoxContainer" unique_id=1962988346]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Remove Infiltration"
@@ -545,3 +549,43 @@ text = "Gold Mine"
 unique_name_in_owner = true
 layout_mode = 2
 text = "Training Grounds"
+
+[node name="WinDialog" type="AcceptDialog" parent="." unique_id=2092558284]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(112, 115)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WinDialog" unique_id=1872451243]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 66.0
+
+[node name="WinLabel" type="Label" parent="WinDialog/VBoxContainer" unique_id=678215041]
+layout_mode = 2
+
+[node name="MainMenuButton" type="Button" parent="WinDialog/VBoxContainer" unique_id=255881321]
+layout_mode = 2
+text = "Main menu"
+
+[node name="leavegame" type="AcceptDialog" parent="." unique_id=1341118116]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(774, 141)
+ok_button_text = "No"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="leavegame" unique_id=912713993]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 766.0
+offset_bottom = 92.0
+
+[node name="leaveLabel" type="Label" parent="leavegame/VBoxContainer" unique_id=1634011956]
+layout_mode = 2
+text = "Are you sure you want to go back to the main menu? (the game only saves the last complete turn)"
+
+[node name="yesbutton" type="Button" parent="leavegame/VBoxContainer" unique_id=1266705684]
+layout_mode = 2
+text = "Yes"
+
+[connection signal="pressed" from="leavegame/VBoxContainer/yesbutton" to="." method="_on_yesbutton_pressed"]

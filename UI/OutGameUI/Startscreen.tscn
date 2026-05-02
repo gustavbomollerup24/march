@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dx5176kvjfaqh"]
 
 [ext_resource type="Script" uid="uid://cyd6a0ky8ppb6" path="res://UI/OutGameUI/startscreen.gd" id="1_cd6g0"]
+[ext_resource type="Texture2D" uid="uid://b5ktwwk1o5fyx" path="res://PlayBoard/Bridge/Bridge1.3.3.png" id="2_cld7g"]
 
 [node name="Startscreen" type="CanvasLayer" unique_id=30817208]
 script = ExtResource("1_cd6g0")
@@ -24,9 +25,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -150.0
-offset_top = -805.0
-offset_right = 150.0
+offset_left = -150.5
+offset_top = -721.0
+offset_right = 150.5
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/h_separation = 50
@@ -52,17 +53,17 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Tutorial"
 
-[node name="Settings" type="Button" parent="GridContainer" unique_id=692445415]
-custom_minimum_size = Vector2(300, 125)
-layout_mode = 2
-theme_override_font_sizes/font_size = 40
-text = "Settings"
-
 [node name="Quit" type="Button" parent="GridContainer" unique_id=92333188]
 custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Quit"
+
+[node name="Bridge1_3_3" type="Sprite2D" parent="." unique_id=1721162284]
+z_index = -2
+position = Vector2(1872.0001, 643.7502)
+scale = Vector2(1.9241734, 1.7356856)
+texture = ExtResource("2_cld7g")
 
 [connection signal="pressed" from="GridContainer/new game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="GridContainer/Continue game" to="." method="_on_continue_game_pressed"]

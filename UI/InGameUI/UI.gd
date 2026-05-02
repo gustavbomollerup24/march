@@ -21,7 +21,7 @@ signal infiltration_remove_requested()
 # =========================
 # Left Panel UI
 # =========================
-@onready var next_turn_button: Button = %NextTurnButton
+@onready var next_turn_button: TextureButton = %NextTurnButton
 @onready var turn_label: Label = %TurnLabel
 @onready var round_label: Label = %RoundLabel
 @onready var season_button: Button = %SeasonButton
@@ -101,6 +101,15 @@ var armor_labels: Dictionary = {}
 @onready var dwarf_ownership_label: Label = $LeftPanel/OwnershipPanel/VBoxContainer/DwarfOwnershipLabel
 @onready var elf_ownership_label: Label = $LeftPanel/OwnershipPanel/VBoxContainer/ElfOwnershipLabel
 
+#win screen
+@onready var win_dialog: AcceptDialog = $WinDialog
+@onready var win_label: Label = $WinDialog/VBoxContainer/WinLabel
+@onready var win_main_menu_button: Button = $WinDialog/VBoxContainer/MainMenuButton
+
+@onready var leave_dialog: AcceptDialog = $leavegame
+@onready var leave_label: Label = $leavegame/VBoxContainer/leaveLabel
+@onready var leave_main_menu_button: Button = $leavegame/VBoxContainer/yesbutton
+
 # =========================
 # Dwarf build UI
 # =========================
@@ -130,6 +139,8 @@ func _ready() -> void:
 	_connect_global_signals()
 	_connect_button_signals()
 	_initialize_ui()
+	
+	win_main_menu_button.pressed.connect(_on_win_main_menu_pressed)
 
 # =========================
 # Setup
@@ -262,6 +273,17 @@ func hide_dwarf_march_status() -> void:
 func _on_next_turn_pressed() -> void:
 	next_turn_requested.emit()
 	print("next turn signal emited")
+
+	var board := get_tree().get_first_node_in_group("board")
+	if board == null:
+		print("No board found")
+		return
+		
+	var ok := SaveManager.save_game(board)
+	if ok:
+		print("Save successful")
+	else:
+		print("Save failed")
 
 func _on_turn_changed(new_turn: Faction.Type) -> void:
 	turn_label.text = "%s turn" % _faction_name(new_turn)
@@ -567,3 +589,30 @@ func update_ownership_display(orc_count: int, dwarf_count: int, elf_count: int, 
 	orc_ownership_label.text = "Orc: %d / %d (%.1f%%)" % [orc_count, total, orc_percent]
 	dwarf_ownership_label.text = "Dwarf: %d / %d (%.1f%%)" % [dwarf_count, total, dwarf_percent]
 	elf_ownership_label.text = "Elf: %d / %d (%.1f%%)" % [elf_count, total, elf_percent]
+
+func show_win_popup(faction: int, reason: String) -> void:
+	match faction:
+		Faction.Type.ORC:
+			win_label.text = "Orcs win!"
+		Faction.Type.DWARF:
+			win_label.text = "Dwarves win!"
+		Faction.Type.ELF:
+			win_label.text = "Elves win!"
+		_:
+			win_label.text = "A faction wins!"
+
+	if reason == "dominance":
+		win_label.text += "\nThey control more then 50% of all settlements."
+	elif reason == "conquest":
+		win_label.text += "\nThey conquered the other factions."
+
+	win_dialog.popup_centered()
+
+func _on_win_main_menu_pressed() -> void:
+	get_tree().change_scene_to_file("res://UI/OutGameUI/Startscreen.tscn")
+
+func show_leave_popup() -> void:
+	leave_dialog.popup_centered()
+
+func _on_yesbutton_pressed() -> void:
+	get_tree().change_scene_to_file("res://UI/OutGameUI/Startscreen.tscn")

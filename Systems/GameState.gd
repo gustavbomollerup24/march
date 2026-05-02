@@ -92,6 +92,14 @@ var current_faction_controller: FactionController
 
 var dwarf_gold_action_assignments := {}
 
+#win conditions
+var conquest_win_enabled: bool = true
+var dominance_win_enabled: bool = true
+var game_over: bool = false
+var winning_faction: int = Faction.Type.NEUTRAL
+
+signal game_won(winning_faction: int, reason: String)
+
 # =========================
 # Init
 # =========================
@@ -165,10 +173,8 @@ func _spawn_orcs_from_gruesome_effigies() -> void:
 	var spawn_amount := 3
 
 	if get_orc_dark_lord() == ORC_LORD_SORCERER:
-		spawn_amount = 6
+		spawn_amount = 4
 
-	if get_orc_dark_lord() == ORC_LORD_BLACKSMITH:
-		add_armor(Faction.Type.ORC, 1)
 
 	for settlement in get_tree().get_nodes_in_group("settlements"):
 		if settlement.faction != Faction.Type.ORC:
@@ -179,6 +185,10 @@ func _spawn_orcs_from_gruesome_effigies() -> void:
 		for slot in settlement.building_slots:
 			if slot == "Gruesome Effigy":
 				settlement.set_soldiers(settlement.soldiers + spawn_amount)
+				
+				if get_orc_dark_lord() == ORC_LORD_BLACKSMITH:
+					add_armor(Faction.Type.ORC, 1)
+				
 				break
 
 # =========================
@@ -325,7 +335,7 @@ func kill_orc_dark_lord() -> void:
 func get_orc_dark_lord_strength() -> int:
 	match orc_current_dark_lord:
 		ORC_LORD_DRAGON:
-			return 4
+			return 6
 		ORC_LORD_WRAITH:
 			return 1
 		ORC_LORD_SORCERER:
@@ -410,3 +420,70 @@ func get_faction_name(faction: Faction.Type) -> String:
 		Faction.Type.ELF: return "Elf"
 		Faction.Type.DWARF: return "Dwarf"
 		_: return "Neutral"
+
+
+#check for win
+func check_win_conditions() -> void:
+	if game_over:
+		return
+
+	if dominance_win_enabled:
+		var dominance_result := _check_dominance_win()
+		if dominance_result["won"]:
+			_set_game_winner(dominance_result["faction"], "dominance")
+			return
+
+	if conquest_win_enabled:
+		var conquest_result := _check_conquest_win()
+		if conquest_result["won"]:
+			_set_game_winner(conquest_result["faction"], "conquest")
+			return
+
+
+func _check_dominance_win() -> Dictionary:
+	var total := 0
+	var owned_counts := {
+		Faction.Type.ORC: 0,
+		Faction.Type.DWARF: 0,
+		Faction.Type.ELF: 0
+	}
+
+	for settlement in get_tree().get_nodes_in_group("settlements"):
+		total += 1
+		if owned_counts.has(settlement.faction):
+			owned_counts[settlement.faction] += 1
+
+	if total <= 0:
+		return {"won": false, "faction": Faction.Type.NEUTRAL}
+
+	for faction in owned_counts.keys():
+		if float(owned_counts[faction]) / float(total) > 0.5:
+			return {"won": true, "faction": faction}
+
+	return {"won": false, "faction": Faction.Type.NEUTRAL}
+
+
+func _check_conquest_win() -> Dictionary:
+	var alive_factions := []
+
+	for faction in FACTIONS:
+		var owns_any := false
+
+		for settlement in get_tree().get_nodes_in_group("settlements"):
+			if settlement.faction == faction:
+				owns_any = true
+				break
+
+		if owns_any:
+			alive_factions.append(faction)
+
+	if alive_factions.size() == 1:
+		return {"won": true, "faction": alive_factions[0]}
+
+	return {"won": false, "faction": Faction.Type.NEUTRAL}
+
+
+func _set_game_winner(faction: int, reason: String) -> void:
+	game_over = true
+	winning_faction = faction
+	game_won.emit(faction, reason)

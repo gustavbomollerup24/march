@@ -45,6 +45,7 @@ func _ready() -> void:
 	_connect_game_signals()
 
 	if not SaveManager.is_loading_game:
+		choose_one_starting_war_promise()
 		start_draft()
 		_show_deselect_button(false)
 		_on_turn_changed(TurnState.current_turn)
@@ -90,7 +91,8 @@ func _connect_ui_signals() -> void:
 func _connect_game_signals() -> void:
 	TurnState.turn_changed.connect(_on_turn_changed)
 	TurnState.resources_changed.connect(_on_resources_changed)
-
+	TurnState.game_won.connect(_on_game_won)
+	
 func _make_command_context() -> CommandContext:
 	var context := CommandContext.new()
 	context.board = self
@@ -302,6 +304,9 @@ func _on_trade_requested(receiver_faction: int, gold_amount: int, armor_amount: 
 	_run_command(command)
 
 func _on_action_requested(action_id: String) -> void:
+	if TurnState.game_over:
+		return
+	
 	var controller := _controller()
 	if controller != null:
 		controller.handle_action(action_id)
@@ -342,6 +347,9 @@ func _on_building_delete_requested(slot_index: int) -> void:
 	controller.delete_building(selected, slot_index)
 
 func _on_next_turn_requested() -> void:
+	if TurnState.game_over:
+		return
+	
 	var controller := _controller()
 	if draft_mode == true:
 		return
@@ -427,6 +435,9 @@ func _deselect() -> void:
 	_show_deselect_button(false)
 
 func _on_settlement_clicked(settlement: Settlement) -> void:
+	if TurnState.game_over:
+		return
+	
 	var controller := _controller()
 
 	if draft_mode:
@@ -621,7 +632,7 @@ func _get_elf_precombat_damage(source: Settlement, target: Settlement) -> Dictio
 
 	if target.faction == Faction.Type.ELF:
 		if _settlement_has_building(target, "Sacred Grove"):
-			damage_to_attacker += _roll_superiority_die()
+			damage_to_attacker += 2
 
 	return {
 		"damage_to_attacker": damage_to_attacker,
@@ -656,6 +667,8 @@ func resolve_move_command(cmd: MoveCommand, _context: CommandContext) -> void:
 	_handle_orc_dark_lord_after_settlement_result(source)
 	_handle_orc_dark_lord_after_settlement_result(target)
 	_finish_successful_move(source, target)
+	
+	TurnState.check_win_conditions()
 
 func resolve_attack_command(cmd: MoveCommand, context: CommandContext) -> void:
 	var source := cmd.source
@@ -719,13 +732,17 @@ func resolve_attack_command(cmd: MoveCommand, context: CommandContext) -> void:
 	_handle_orc_dark_lord_after_settlement_result(source)
 	_handle_orc_dark_lord_after_settlement_result(target)
 	_finish_successful_move(source, target)
+	
+	TurnState.check_win_conditions()
 
 func _finish_successful_move(source: Settlement, target: Settlement) -> void:
+	TurnState.check_win_conditions()
 	var controller := _controller()
 	if controller != null:
 		controller.after_successful_move(source, target)
 
 	_deselect()
+	
 
 func update_land_control_ui() -> void:
 	var total := 0
@@ -745,3 +762,27 @@ func update_land_control_ui() -> void:
 				elf_count += 1
 
 	ui.update_ownership_display(orc_count, dwarf_count, elf_count, total)
+	
+func _on_game_won(winning_faction: int, reason: String) -> void:
+	ui.show_win_popup(winning_faction, reason)
+
+func choose_one_starting_war_promise() -> void:
+	var war_promise_settlements: Array[Settlement] = []
+
+	for settlement: Settlement in get_tree().get_nodes_in_group("settlements"):
+		if settlement.has_orc_war_promise():
+			war_promise_settlements.append(settlement)
+
+	if war_promise_settlements.size() <= 1:
+		return
+
+	var chosen_index := rng.randi_range(0, war_promise_settlements.size() - 1)
+	var chosen_settlement: Settlement = war_promise_settlements[chosen_index]
+
+	for settlement: Settlement in war_promise_settlements:
+		if settlement != chosen_settlement:
+			settlement.set_orc_war_promise(false)
+
+func _input(event):
+	if event.is_action_pressed("ui_cancel"):
+		ui.show_leave_popup()
