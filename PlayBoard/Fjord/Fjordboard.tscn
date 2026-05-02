@@ -113,7 +113,6 @@ settlement_name = "Caelporth"
 soldiers = 8
 neighbors = [NodePath("../Durnhal"), NodePath("../Brinefall"), NodePath("../Greyharbor"), NodePath("../Balgrin")]
 building_slot_count = 2
-is_orc_war_promise = true
 
 [node name="Sevrin" parent="." unique_id=168259393 node_paths=PackedStringArray("neighbors") instance=ExtResource("4_qpjto")]
 position = Vector2(3341, 1613)

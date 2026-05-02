@@ -12,3 +12,7 @@ func _on_quit_pressed() -> void:
 
 func _on_continue_game_pressed() -> void:
 	SaveManager.load_game()
+
+
+func _on_tutorial_pressed() -> void:
+	get_tree().change_scene_to_file("res://UI/OutGameUI/tutorial/tutorial.tscn")

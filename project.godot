@@ -30,6 +30,10 @@ window/stretch/mode="canvas_items"
 
 board=""
 
+[gui]
+
+theme/custom_font="uid://da32pkkgpnc4s"
+
 [input]
 
 d={

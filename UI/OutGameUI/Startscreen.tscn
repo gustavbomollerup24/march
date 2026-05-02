@@ -36,6 +36,7 @@ theme_override_constants/v_separation = 35
 [node name="new game" type="Button" parent="GridContainer" unique_id=1755619535]
 custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
 theme_override_font_sizes/font_size = 50
 text = "New Game"
 icon_alignment = 1
@@ -43,6 +44,7 @@ icon_alignment = 1
 [node name="Continue game" type="Button" parent="GridContainer" unique_id=891352449]
 custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
+theme_override_colors/font_hover_pressed_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
 theme_override_font_sizes/font_size = 40
 text = "Continue game"
 icon_alignment = 1
@@ -50,13 +52,15 @@ icon_alignment = 1
 [node name="Tutorial" type="Button" parent="GridContainer" unique_id=973131635]
 custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_colors/font_hover_pressed_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_font_sizes/font_size = 45
 text = "Tutorial"
 
 [node name="Quit" type="Button" parent="GridContainer" unique_id=92333188]
 custom_minimum_size = Vector2(300, 125)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
+theme_override_colors/font_hover_pressed_color = Color(0.3882353, 0.3882353, 0.3882353, 1)
+theme_override_font_sizes/font_size = 47
 text = "Quit"
 
 [node name="Bridge1_3_3" type="Sprite2D" parent="." unique_id=1721162284]
@@ -67,4 +71,5 @@ texture = ExtResource("2_cld7g")
 
 [connection signal="pressed" from="GridContainer/new game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="GridContainer/Continue game" to="." method="_on_continue_game_pressed"]
+[connection signal="pressed" from="GridContainer/Tutorial" to="." method="_on_tutorial_pressed"]
 [connection signal="pressed" from="GridContainer/Quit" to="." method="_on_quit_pressed"]

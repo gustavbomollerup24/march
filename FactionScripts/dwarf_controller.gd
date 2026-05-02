@@ -267,7 +267,7 @@ func _start_march() -> void:
 
 	mode = MODE_MARCH
 	march_moves_remaining = 1 + stables
-	march_source = null
+	
 
 	print("March started. You may make %d moves." % march_moves_remaining)
 	_refresh_ui()
