@@ -21,7 +21,7 @@ signal infiltration_remove_requested()
 # =========================
 # Left Panel UI
 # =========================
-@onready var next_turn_button: TextureButton = %NextTurnButton
+@onready var next_turn_button: Button = %NextTurnButton
 @onready var turn_label: Label = %TurnLabel
 @onready var round_label: Label = %RoundLabel
 @onready var season_button: Button = %SeasonButton
@@ -46,11 +46,19 @@ signal move_all_requested()
 @onready var defender_armor_edit: LineEdit = %DefenderArmorEdit
 
 @onready var bring_dark_lord_checkbox: CheckBox = %BringDarkLordCheckBox
+
+#=========================
 # Settings
 # =========================
-@onready var settings_button: TextureButton = %SettingsButton
+@onready var settings_button: Button = %SettingsButton
 @onready var settings_dialog: Window = %SettingsDialog
 @onready var quit_button: Button = %QuitButton
+@onready var info_button: Button = %InfoButton
+@onready var action_info_panel: Panel = %ActionInfoPanel
+@onready var close_action_info_panel: Button = %CloseActionInfoPanel
+@onready var faction_info_button: Button = %FactionInfoButton
+@onready var faction_info_panel: Panel = %FactionInfoPanel
+@onready var close_faction_info_panel: Button = %CloseFactionInfoPanel
 
 # =========================
 # Settlement details
@@ -171,6 +179,15 @@ func _connect_button_signals() -> void:
 	next_turn_button.pressed.connect(_on_next_turn_pressed)
 	settings_button.pressed.connect(_open_settings)
 	quit_button.pressed.connect(_quit_game)
+	info_button.pressed.connect(_info_action_open)
+	faction_info_button.pressed.connect(_info_faction_open)
+	close_action_info_panel.pressed.connect(hide_info_action)
+	close_faction_info_panel.pressed.connect(hide_info_faction)
+
+
+
+
+
 	season_button.pressed.connect(_on_season_button_pressed)
 	trade_button.pressed.connect(_on_trade_button_pressed)
 	trade_dialog.confirmed.connect(_on_trade_confirmed)
@@ -279,11 +296,13 @@ func _on_next_turn_pressed() -> void:
 		print("No board found")
 		return
 		
-	var ok := SaveManager.save_game(board)
+	var ok = SaveManager.save_game(board)
 	if ok:
 		print("Save successful")
 	else:
 		print("Save failed")
+	
+	hide_dwarf_march_status()
 
 func _on_turn_changed(new_turn: Faction.Type) -> void:
 	turn_label.text = "%s turn" % _faction_name(new_turn)
@@ -322,6 +341,20 @@ func _open_settings() -> void:
 func _quit_game() -> void:
 	get_tree().quit()
 
+func _info_action_open() -> void:
+	action_info_panel.visible = true
+	settings_dialog.visible = false
+
+func _info_faction_open() -> void:
+	faction_info_panel.visible = true
+	settings_dialog.visible = false
+
+func hide_info_action() -> void:
+	action_info_panel.visible = false
+
+func hide_info_faction() -> void:
+	faction_info_panel.visible = false
+
 # =========================
 # Resource / trade UI
 # =========================
@@ -345,13 +378,12 @@ func _update_resource_labels() -> void:
 			TurnState.get_gold(faction)
 		]
 
-		armor_label.text = "%s Armor: %d" % [
-			_faction_name(faction),
+		armor_label.text = "Armor: %d" % [
 			TurnState.get_armor(faction)
 		]
 	
-	elf_magic_label.text = "Elf Magic: %d" % TurnState.get_elf_magic()
-	elf_serenity_label.text = "Elf Serenity: %d" % TurnState.get_elf_serenity()
+	elf_magic_label.text = "Magic: %d" % TurnState.get_elf_magic()
+	elf_serenity_label.text = "Serenity: %d" % TurnState.get_elf_serenity()
 
 func _populate_trade_targets() -> void:
 	target_faction_option.clear()
