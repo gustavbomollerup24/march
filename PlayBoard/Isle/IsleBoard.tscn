@@ -134,7 +134,7 @@ neighbors = [NodePath("../Valmere"), NodePath("../Brightholm")]
 [node name="Brightholm" parent="." unique_id=363392451 instance=ExtResource("6_7x8h6")]
 position = Vector2(1414, 1698)
 settlement_id = "Bravelin"
-settlement_name = "BrighthoBravelinlm"
+settlement_name = "Bravelin"
 soldiers = 8
 building_slot_count = 2
 

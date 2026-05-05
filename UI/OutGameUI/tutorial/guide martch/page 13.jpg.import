@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://du4taeslysgpi"
-path="res://.godot/imported/martch_page-0013.jpg-98b2e16d2351a9616823060d24405347.ctex"
+uid="uid://cuwdm4o3jyrpd"
+path="res://.godot/imported/page 13.jpg-2fcdabbafc0a7e3ffbdbee02988c944a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://UI/OutGameUI/tutorial/guide martch/martch_page-0013.jpg"
-dest_files=["res://.godot/imported/martch_page-0013.jpg-98b2e16d2351a9616823060d24405347.ctex"]
+source_file="res://UI/OutGameUI/tutorial/guide martch/page 13.jpg"
+dest_files=["res://.godot/imported/page 13.jpg-2fcdabbafc0a7e3ffbdbee02988c944a.ctex"]
 
 [params]
 

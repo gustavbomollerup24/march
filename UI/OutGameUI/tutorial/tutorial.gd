@@ -18,7 +18,7 @@ var page_paths := [
 	"res://UI/OutGameUI/tutorial/guide martch/martch_page-0010.jpg",
 	"res://UI/OutGameUI/tutorial/guide martch/martch_page-0011.jpg",
 	"res://UI/OutGameUI/tutorial/guide martch/martch_page-0012.jpg",
-	"res://UI/OutGameUI/tutorial/guide martch/martch_page-0013.jpg",
+	"res://UI/OutGameUI/tutorial/guide martch/page 13.jpg",
 	"res://UI/OutGameUI/tutorial/guide martch/march_page-0014.jpg",
 	"res://UI/OutGameUI/tutorial/guide martch/march_page-0015.jpg",
 	"res://UI/OutGameUI/tutorial/guide martch/march_page-0016.jpg",
@@ -77,3 +77,7 @@ func _on_previous_button_pressed():
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
 		get_tree().change_scene_to_file("res://UI/OutGameUI/Startscreen.tscn")
+	elif event.is_action_pressed("ui_right"):
+		_on_next_button_pressed()
+	elif event.is_action_pressed("ui_left"):
+		_on_previous_button_pressed()
